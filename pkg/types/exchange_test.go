@@ -7,11 +7,15 @@ import (
 )
 
 func Test_exchangeName(t *testing.T) {
-	assert.Equal(t, ExchangeMax.String(), "max")
+	assert.Equal(t, ExchangeBinance.String(), "binance")
 	name, err := ValidExchangeName("binance")
 	assert.Equal(t, name, ExchangeName("binance"))
 	assert.NoError(t, err)
+	name, err = ValidExchangeName("polymarket")
+	assert.Equal(t, name, ExchangeName("polymarket"))
+	assert.NoError(t, err)
 	_, err = ValidExchangeName("dummy")
 	assert.Error(t, err)
-	assert.True(t, ExchangeMax.IsValid())
+	assert.True(t, ExchangeBinance.IsValid())
+	assert.True(t, ExchangePolymarket.IsValid())
 }

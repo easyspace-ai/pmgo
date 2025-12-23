@@ -6,6 +6,7 @@ import (
 	"net/http/httputil"
 	"os"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -176,6 +177,13 @@ func TestClient_setTimeOffsetFromServer(t *testing.T) {
 
 	client := NewClient("")
 	err := client.SetTimeOffsetFromServer(context.Background())
+	if err != nil {
+		// 某些环境会被 Binance 以 451/地理限制拦截，这不是逻辑问题，直接 skip。
+		msg := err.Error()
+		if strings.Contains(msg, "restricted location") || strings.Contains(msg, "status code: 451") {
+			t.Skipf("binance public api not accessible in this environment: %v", err)
+		}
+	}
 	assert.NoError(t, err)
 }
 

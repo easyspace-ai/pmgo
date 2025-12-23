@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"os"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -15,6 +16,20 @@ import (
 	"github.com/c9s/bbgo/pkg/exchange"
 	"github.com/c9s/bbgo/pkg/types"
 )
+
+func skipIfBinancePublicAPIBlocked(t *testing.T, ex types.ExchangePublic) {
+	t.Helper()
+
+	_, err := ex.QueryTicker(context.Background(), "BTCUSDT")
+	if err == nil {
+		return
+	}
+
+	msg := err.Error()
+	if strings.Contains(msg, "restricted location") || strings.Contains(msg, "status code: 451") {
+		t.Skipf("binance public api not accessible in this environment: %v", err)
+	}
+}
 
 func TestBacktestService_FindMissingTimeRanges_EmptyData(t *testing.T) {
 	if b, _ := strconv.ParseBool(os.Getenv("CI")); b {
@@ -33,6 +48,7 @@ func TestBacktestService_FindMissingTimeRanges_EmptyData(t *testing.T) {
 
 	ex, err := exchange.NewPublic(types.ExchangeBinance)
 	assert.NoError(t, err)
+	skipIfBinancePublicAPIBlocked(t, ex)
 
 	service := &BacktestService{DB: dbx}
 
@@ -62,6 +78,7 @@ func TestBacktestService_QueryExistingDataRange(t *testing.T) {
 
 	ex, err := exchange.NewPublic(types.ExchangeBinance)
 	assert.NoError(t, err)
+	skipIfBinancePublicAPIBlocked(t, ex)
 
 	service := &BacktestService{DB: dbx}
 
@@ -93,6 +110,7 @@ func TestBacktestService_SyncPartial(t *testing.T) {
 
 	ex, err := exchange.NewPublic(types.ExchangeBinance)
 	assert.NoError(t, err)
+	skipIfBinancePublicAPIBlocked(t, ex)
 
 	service := &BacktestService{DB: dbx}
 
@@ -143,6 +161,7 @@ func TestBacktestService_FindMissingTimeRanges(t *testing.T) {
 
 	ex, err := exchange.NewPublic(types.ExchangeBinance)
 	assert.NoError(t, err)
+	skipIfBinancePublicAPIBlocked(t, ex)
 
 	service := &BacktestService{DB: dbx}
 
