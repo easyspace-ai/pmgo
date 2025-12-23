@@ -6,13 +6,7 @@ import (
 	"strings"
 
 	"github.com/c9s/bbgo/pkg/exchange/binance"
-	"github.com/c9s/bbgo/pkg/exchange/bitfinex"
-	"github.com/c9s/bbgo/pkg/exchange/bitget"
-	"github.com/c9s/bbgo/pkg/exchange/bybit"
-	"github.com/c9s/bbgo/pkg/exchange/coinbase"
-	"github.com/c9s/bbgo/pkg/exchange/kucoin"
-	"github.com/c9s/bbgo/pkg/exchange/max"
-	"github.com/c9s/bbgo/pkg/exchange/okex"
+	"github.com/c9s/bbgo/pkg/exchange/polymarket"
 	"github.com/c9s/bbgo/pkg/types"
 )
 
@@ -46,46 +40,10 @@ var factories = map[types.ExchangeName]Factory{
 			return binance.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret], options[OptionKeyAPIPrivateKey]), nil
 		},
 	},
-	types.ExchangeMax: {
+	types.ExchangePolymarket: {
 		EnvLoader: DefaultEnvVarLoader,
 		Constructor: func(options Options) (types.Exchange, error) {
-			return max.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret], options[OptionKeyAPISubAccount]), nil
-		},
-	},
-	types.ExchangeOKEx: {
-		EnvLoader: DefaultEnvVarLoader,
-		Constructor: func(options Options) (types.Exchange, error) {
-			return okex.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret], options[OptionKeyAPIPassphrase]), nil
-		},
-	},
-	types.ExchangeBitfinex: {
-		EnvLoader: DefaultEnvVarLoader,
-		Constructor: func(options Options) (types.Exchange, error) {
-			return bitfinex.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret]), nil
-		},
-	},
-	types.ExchangeKucoin: {
-		EnvLoader: DefaultEnvVarLoader,
-		Constructor: func(options Options) (types.Exchange, error) {
-			return kucoin.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret], options[OptionKeyAPIPassphrase]), nil
-		},
-	},
-	types.ExchangeBitget: {
-		EnvLoader: DefaultEnvVarLoader,
-		Constructor: func(options Options) (types.Exchange, error) {
-			return bitget.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret], options[OptionKeyAPIPassphrase]), nil
-		},
-	},
-	types.ExchangeBybit: {
-		EnvLoader: DefaultEnvVarLoader,
-		Constructor: func(options Options) (types.Exchange, error) {
-			return bybit.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret])
-		},
-	},
-	types.ExchangeCoinBase: {
-		EnvLoader: DefaultEnvVarLoader,
-		Constructor: func(options Options) (types.Exchange, error) {
-			return coinbase.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret], options[OptionKeyAPIPassphrase], 0), nil
+			return polymarket.New(options[OptionKeyAPIKey], options[OptionKeyAPISecret], options[OptionKeyAPIPassphrase]), nil
 		},
 	},
 }

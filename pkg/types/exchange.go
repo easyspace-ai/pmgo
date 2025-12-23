@@ -17,6 +17,9 @@ const DateFormat = "2006-01-02"
 type ExchangeName string
 
 const (
+	// 这些常量需要保留，以保证历史 exchange package / 示例程序可正常编译。
+	// “去掉支持”的语义在本次改造中通过 SupportedExchanges + exchange factory 限制来体现，
+	// 从而避免 go test ./... 编译所有 package 时出现未定义符号。
 	ExchangeMax      ExchangeName = "max"
 	ExchangeBinance  ExchangeName = "binance"
 	ExchangeOKEx     ExchangeName = "okex"
@@ -26,17 +29,12 @@ const (
 	ExchangeBybit    ExchangeName = "bybit"
 	ExchangeCoinBase ExchangeName = "coinbase"
 	ExchangeBitfinex ExchangeName = "bitfinex"
+	ExchangePolymarket ExchangeName = "polymarket"
 )
 
 var SupportedExchanges = map[ExchangeName]struct{}{
-	ExchangeMax:      struct{}{},
-	ExchangeBinance:  struct{}{},
-	ExchangeOKEx:     struct{}{},
-	ExchangeKucoin:   struct{}{},
-	ExchangeBitget:   struct{}{},
-	ExchangeBybit:    struct{}{},
-	ExchangeCoinBase: struct{}{},
-	ExchangeBitfinex: struct{}{},
+	ExchangeBinance:    struct{}{},
+	ExchangePolymarket: struct{}{},
 	// note: we are not using "backtest"
 }
 

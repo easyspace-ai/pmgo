@@ -9,7 +9,7 @@ import (
 
 func TestRecoverOrderError(t *testing.T) {
 	recoverOrderErr := &RecoverOrderError{
-		Exchange: ExchangeMax,
+		Exchange: ExchangeBinance,
 		SubmitOrder: SubmitOrder{
 			Price:    fixedpoint.NewFromFloat(200.0),
 			Quantity: fixedpoint.NewFromFloat(10.0),
